@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import models.Message;
+import models.Task;
 import utils.DBUtil;
 
 /**
@@ -35,7 +35,7 @@ public class UpdateServlet extends HttpServlet {
         if(_token != null && _token.equals(request.getSession().getId())) {
             EntityManager em = DBUtil.createEntityManager();
 
-            Message m = em.find(Message.class,(Integer)(request.getSession().getAttribute("message_id")));
+            Task m = em.find(Task.class,(Integer)(request.getSession().getAttribute("task_id")));
 
             String content = request.getParameter("content");
             m.setContent(content);
@@ -47,7 +47,7 @@ public class UpdateServlet extends HttpServlet {
             em.getTransaction().commit();
             em.close();
 
-            request.getSession().removeAttribute("message_id");
+            request.getSession().removeAttribute("task_id");
 
             response.sendRedirect(request.getContextPath() + "/index");
         }
